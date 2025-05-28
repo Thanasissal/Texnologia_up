@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class Main {
 
 
 
-        JSpinner leftField = null;
+        JSpinner leftField;
         for (int i = 1; i <= 7; i++) {
             final int index = i - 1;
 
@@ -59,7 +61,7 @@ public class Main {
 
             Dimension spinnerSize = new Dimension(30, 20);
             leftField.setPreferredSize(spinnerSize);
-            JComponent editor = (JComponent) leftField.getEditor();
+            JComponent editor = leftField.getEditor();
             JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) editor;
             spinnerEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
 
@@ -75,7 +77,7 @@ public class Main {
 
             JSpinner rightField = new JSpinner(new SpinnerNumberModel(0.25, 0, 1, 0.1));
             rightField.setPreferredSize(spinnerSize);
-            JComponent rightEditor = (JComponent) rightField.getEditor();
+            JComponent rightEditor = rightField.getEditor();
             JSpinner.DefaultEditor rightSpinnerEditor = (JSpinner.DefaultEditor) rightEditor;
             rightSpinnerEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
 
@@ -123,50 +125,61 @@ public class Main {
         JCheckBox checkbox2 = new JCheckBox("Ειδικό μάθημα 2");
         JCheckBox checkbox3 = new JCheckBox("Πρακτικές εξετάσεις");
 
-        checkbox1.addActionListener(e -> {
-            boolean enabled = checkbox1.isSelected();
-            GradeFields.get(4).setEnabled(enabled);
-            WeightFields.get(4).setEnabled(enabled);
+        checkbox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean enabled = checkbox1.isSelected();
+                GradeFields.get(4).setEnabled(enabled);
+                WeightFields.get(4).setEnabled(enabled);
+            }
         });
         checkboxPanel.add(checkbox1);
 
-        checkbox2.addActionListener(e -> {
-            boolean enabled = checkbox2.isSelected();
-            GradeFields.get(5).setEnabled(enabled);
-            WeightFields.get(5).setEnabled(enabled);
+        checkbox2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                boolean enabled = checkbox2.isSelected();
+                GradeFields.get(5).setEnabled(enabled);
+                WeightFields.get(5).setEnabled(enabled);
+            }
         });
         checkboxPanel.add(checkbox2);
 
-        checkbox3.addActionListener(e -> {
-            boolean enabled = checkbox3.isSelected();
-            GradeFields.get(6).setEnabled(enabled);
-            WeightFields.get(6).setEnabled(enabled);
+        checkbox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean enabled = checkbox3.isSelected();
+                GradeFields.get(6).setEnabled(enabled);
+                WeightFields.get(6).setEnabled(enabled);
+            }
         });
         checkboxPanel.add(checkbox3);
 
         JButton calculateButton = new JButton("Calculate");
-        calculateButton.addActionListener(e -> {
-            for (int i = 0; i < Subjects.size(); i++) {
-                Subject subject = Subjects.get(i);
-                if (subject.getGrade() != null && subject.getWeight() != null &&
-                        (i < 4 || (i == 4 && checkbox1.isSelected()) || (i == 5 && checkbox2.isSelected()) || (i == 6 && checkbox3.isSelected()))) {
-                    Double result = subject.CalculateScore(subject.getGrade(), subject.getWeight());
-                    ResultLabels.get(i).setText(String.format("%d", result.intValue()));
-                    System.out.println(String.format("Subject %d: %d", i, result.intValue()));
-                if ( (i < 4 || (i == 4 && checkbox1.isSelected()) || (i == 5 && checkbox2.isSelected()) || (i == 6 && checkbox3.isSelected()))) {
-                    Double total = 0.0;
-                    for (int j = 0; j < Subjects.size(); j++) {
-                        total += Double.parseDouble(ResultLabels.get(j).getText());
+        calculateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < Subjects.size(); i++) {
+                    Subject subject = Subjects.get(i);
+                    if (subject.getGrade() != null && subject.getWeight() != null &&
+                            (i < 4 || (i == 4 && checkbox1.isSelected()) || (i == 5 && checkbox2.isSelected()) || (i == 6 && checkbox3.isSelected()))) {
+                        Double result = subject.CalculateScore(subject.getGrade(), subject.getWeight());
+                        ResultLabels.get(i).setText(String.format("%d", result.intValue()));
+                        System.out.println(String.format("Subject %d: %d", i, result.intValue()));
+                        if ((i < 4 || (i == 4 && checkbox1.isSelected()) || (i == 5 && checkbox2.isSelected()) || (i == 6 && checkbox3.isSelected()))) {
+                            Double total = 0.0;
+                            for (int j = 0; j < Subjects.size(); j++) {
+                                total += Double.parseDouble(ResultLabels.get(j).getText());
+                            }
+                            ResultLabels.get(9).setText(String.format("%d", total.intValue()));
+                        }
+                    } else {
+                        ResultLabels.get(i).setText("0");
                     }
-                    ResultLabels.get(9).setText(String.format("%d", total.intValue()));
-                    }
-                    if (i == 7) {}
-                } else {
-                    ResultLabels.get(i).setText("0");
                 }
+
+
             }
-
-
         });
 
 
