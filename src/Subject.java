@@ -1,10 +1,28 @@
 public class Subject {
-    public Integer Grade;
-    public Integer Weight;
+    private Integer Grade;
+    private Double Weight;
 
-    public Subject() {}
+    public Subject(Double Weight) {
+        this.Weight = Weight;
+    }
 
-    public Integer CalculateScore(Integer Grade, Integer Weight){
-        return Grade * Weight * 10;
+    public Integer getGrade() {
+        return Grade;
+    }
+
+    public void setGrade(Integer grade) {
+        Grade = grade;
+    }
+
+    public Double getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(Double weight) {
+        Weight = weight;
+    }
+
+    public Double CalculateScore(Integer Grade, Double Weight){
+        return Grade.doubleValue() * (Weight * 100) * 10;
     }
 }
