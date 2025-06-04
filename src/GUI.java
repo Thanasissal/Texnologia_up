@@ -18,9 +18,6 @@ import javax.swing.UIManager;
 import java.util.ArrayList;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class GUI extends JFrame {
     private JComboBox<String> comboDirection;
@@ -127,13 +124,13 @@ public class GUI extends JFrame {
         syntelestesAnaKateuthinsi.put("Οικονομικά", new double[]{0.25, 0.30, 0.25, 0.20});
         syntelestesAnaKateuthinsi.put("Υγείας", new double[]{0.25, 0.30, 0.25, 0.20});
 
-        comboDirection.addActionListener(e -> ενημέρωσηΜαθημάτων());
-        ενημέρωσηΜαθημάτων();
+        comboDirection.addActionListener(e -> enhmerwshMathimaton());
+        enhmerwshMathimaton();
 
-        calcButton.addActionListener(e -> υπολογισμός());
+        calcButton.addActionListener(e -> upologismos());
     }
 
-    private void ενημέρωσηΜαθημάτων() {
+    private void enhmerwshMathimaton() {
         String kateuthinsi = (String) comboDirection.getSelectedItem();
         String[] mathimata = mathimataAnaKateuthinsi.get(kateuthinsi);
         for (int i = 0; i < 4; i++) {
@@ -144,7 +141,7 @@ public class GUI extends JFrame {
     
     
 
-    private void υπολογισμός() {
+    private void upologismos() {
         try {
             String kateuthinsi = (String) comboDirection.getSelectedItem();
             double[] syntelestes = syntelestesAnaKateuthinsi.get(kateuthinsi);
@@ -170,7 +167,8 @@ public class GUI extends JFrame {
                         if (text.isEmpty()) throw new NumberFormatException("Άφησες κενό στο ειδικό μάθημα: " + eidikaMathimata[i]);
                         double v = Double.parseDouble(text);
                         if (v < 0 || v > 20) throw new NumberFormatException("Ο βαθμός πρέπει να είναι μεταξύ 0 και 20.");
-                        sunoloVathmon += v;
+                        sunoloMorion += v * syntelestes[i] * 1000;
+                        sunoloVathmon += v * 0.25 * 1000;
                         count++;
                     }
                 }
@@ -183,7 +181,7 @@ public class GUI extends JFrame {
             sb.append("Μόρια: ").append(telikaMoria).append("\n");
             sb.append("Μέσος Όρος: ").append(String.format("%.2f", mo)).append("\n\n");
 
-            List<School> sxoles = φορτωσεΣχολες(kateuthinsi);
+            List<School> sxoles = fortoseSxoles(kateuthinsi);
             if (sxoles.isEmpty()) {
                 sb.append("Δεν βρέθηκαν σχολές για αυτά τα μόρια.");
             } else {
@@ -206,12 +204,12 @@ public class GUI extends JFrame {
         }
     }
 
-    private List<School> φορτωσεΣχολες(String kateuthinsi) {
+    private List<School> fortoseSxoles(String kateuthinsi) {
         ArrayList<School> schools;
         String filename = switch (kateuthinsi) {
-            case "Θεωρητική" -> "theoritiki.csv";
+            case "Θεωρητική" -> "./Sxoles/theoritiki_cleaned.csv";
             case "Θετική" -> "./Sxoles/thetiki_cleaned.csv";
-            case "Οικονομικά" -> "oikonomika.csv";
+            case "Οικονομικά" -> "./Sxoles/oikonomika_cleaned.csv";
             case "Υγείας" -> "./Sxoles/igeias_cleaned.csv";
             default -> null;
         };
