@@ -1,5 +1,4 @@
 import javax.swing.SwingUtilities;
-import java.util.ArrayList;
 
 public class Main {
 
