@@ -1,19 +1,9 @@
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.*;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 import java.util.ArrayList;
 import java.awt.Font;
@@ -21,12 +11,14 @@ import java.awt.GridLayout;
 
 public class GUI extends JFrame {
     private JComboBox<String> comboDirection;
+    private JComboBox selectedDirection;
     private JTextField[] textMathimata = new JTextField[4];
     private JLabel[] labelMathimata = new JLabel[4];
     private JComboBox<String> comboSpecialYesNo;
     private JCheckBox[] specialCheckBoxes;
     private JTextField[] specialGrades;
     private JTextArea resultArea;
+    private JPanel lessonsPanel = new JPanel();
 
     private HashMap<String, String[]> mathimataAnaKateuthinsi = new HashMap<>();
     private HashMap<String, double[]> syntelestesAnaKateuthinsi = new HashMap<>();
@@ -52,19 +44,64 @@ public class GUI extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        // Τυπος σχολείου
+        JPanel SchoolTypePanel = new JPanel();
+        SchoolTypePanel.setBorder(BorderFactory.createTitledBorder("Τύπος Σχολείου"));
+        comboDirection = new JComboBox<>(new String[]{"Γενικό Λύκειο","Επαγγελματικό Λύκειο"});
+        comboDirection.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                enhmerwshKateuthimsis();
+            }
+        });
+        SchoolTypePanel.add(comboDirection);
+        mainPanel.add(SchoolTypePanel);
+
+
         // Κατεύθυνση
         JPanel directionPanel = new JPanel();
         directionPanel.setBorder(BorderFactory.createTitledBorder("Επιλογή Κατεύθυνσης"));
-        comboDirection = new JComboBox<>(new String[]{"Θεωρητική", "Θετική", "Οικονομικά", "Υγείας"});
-        directionPanel.add(comboDirection);
+        if(comboDirection.getSelectedItem().equals("Γενικό Λύκειο")){
+            selectedDirection = new JComboBox<>(new String[]{"Θεωρητική", "Θετική", "Οικονομικά", "Υγείας"});
+        }
+        else{
+            selectedDirection = new JComboBox<>(new String[]{"Γεωπονία Τρροφίμων και Περιβάλλοντος","Διοίκησης και Οικονομίας","Εφαρμοσμένων Τεχνών","Μηχανολογίας","Ναυτιλιακών Επαγγελμάτων","Υγείας και Πρόνοιας - Ευεξίας","Πληροφορικής"});
+        }
+        directionPanel.add(selectedDirection);
         mainPanel.add(directionPanel);
 
+        // Δεδομένα κατευθύνσεων
+        mathimataAnaKateuthinsi.put("Θεωρητική", new String[]{"Έκθεση", "Ιστορία", "Αρχαία", "Λατινικά"});
+        mathimataAnaKateuthinsi.put("Θετική", new String[]{"Έκθεση", "Μαθηματικά", "Φυσική", "Χημεία"});
+        mathimataAnaKateuthinsi.put("Οικονομικά", new String[]{"Έκθεση", "Μαθηματικά", "ΑΟΘ", "ΑΕΠΠ"});
+        mathimataAnaKateuthinsi.put("Υγείας", new String[]{"Έκθεση", "Βιολογία", "Φυσική", "Χημεία"});
+        mathimataAnaKateuthinsi.put("Γεωπονία Τρροφίμων και Περιβάλλοντος", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Σύγχρονες Γεωργικές Επιχειρήσεις", "Αρχές Βιολογικής Γεωργίας"});
+        mathimataAnaKateuthinsi.put("Διοίκησης και Οικονομίας", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Αρχές Οικονομικής Θεωρίας", "Αρχές Οργάνωσης και Διοίκησης "});
+        mathimataAnaKateuthinsi.put("Εφαρμοσμένων Τεχνών", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Ιστορία Σύγχρονης Τέχνης", "Τεχνολογία Υλικών"});
+        mathimataAnaKateuthinsi.put("Μηχανολογίας", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Στοιχεία Μηχανών", "Στοιχεία Ψύξης - Κλιματισμού"});
+        mathimataAnaKateuthinsi.put("Ναυτιλιακών Επαγγελμάτων", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Ναυτικές Μηχανές", "Ναυτικό Δίκαιο - Διεθνείς Κανονισμοί στη Ναυτιλία - Εφαρμογές"});
+        mathimataAnaKateuthinsi.put("Πληροφορικής", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Προγραμματισμός Υπολογιστών", "Δίκτυα Υπολογιστών"});
+        mathimataAnaKateuthinsi.put("Υγείας και Πρόνοιας - Ευεξίας", new String[]{"Νέα Ελληνικά", "Μαθηματικά", "Ανατομία - Φυσιολογία ", "Υγιεινή"});
+
+        syntelestesAnaKateuthinsi.put("Θεωρητική", new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Θετική", new double[]{0.25, 0.25, 0.25, 0.25});
+        syntelestesAnaKateuthinsi.put("Οικονομικά", new double[]{0.25, 0.30, 0.25, 0.20});
+        syntelestesAnaKateuthinsi.put("Υγείας", new double[]{0.25, 0.30, 0.25, 0.20});
+        syntelestesAnaKateuthinsi.put("Γεωπονία Τρροφίμων και Περιβάλλοντος",new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Διοίκησης και Οικονομίας",new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Εφαρμοσμένων Τεχνών",new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Μηχανολογίας", new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Ναυτιλιακών Επαγγελμάτων",new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Πληροφορικής", new double[]{0.25, 0.30, 0.30, 0.15});
+        syntelestesAnaKateuthinsi.put("Υγείας και Πρόνοιας - Ευεξίας",new double[]{0.25, 0.30, 0.30, 0.15});
+
+
         // Μαθήματα
-        JPanel lessonsPanel = new JPanel();
         lessonsPanel.setLayout(new GridLayout(4, 2, 10, 10));
         lessonsPanel.setBorder(BorderFactory.createTitledBorder("Βασικά Μαθήματα"));
         for (int i = 0; i < 4; i++) {
-            labelMathimata[i] = new JLabel("Μάθημα " + (i + 1));
+            String Kateu = selectedDirection.getSelectedItem().toString();
+            String[] mathimataAnaKateuthinsiArray = mathimataAnaKateuthinsi.get(Kateu);
+            labelMathimata[i] = new JLabel(mathimataAnaKateuthinsiArray[i]);
             textMathimata[i] = new JTextField(5);
             lessonsPanel.add(labelMathimata[i]);
             lessonsPanel.add(textMathimata[i]);
@@ -113,37 +150,42 @@ public class GUI extends JFrame {
         // Προσθήκη στο frame
         setContentPane(new JScrollPane(mainPanel));
 
-        // Δεδομένα κατευθύνσεων
-        mathimataAnaKateuthinsi.put("Θεωρητική", new String[]{"Έκθεση", "Ιστορία", "Αρχαία", "Λατινικά"});
-        mathimataAnaKateuthinsi.put("Θετική", new String[]{"Έκθεση", "Μαθηματικά", "Φυσική", "Χημεία"});
-        mathimataAnaKateuthinsi.put("Οικονομικά", new String[]{"Έκθεση", "Μαθηματικά", "ΑΟΘ", "ΑΕΠΠ"});
-        mathimataAnaKateuthinsi.put("Υγείας", new String[]{"Έκθεση", "Βιολογία", "Φυσική", "Χημεία"});
+        selectedDirection.addActionListener(e -> enhmerwshMathimatwn());
 
-        syntelestesAnaKateuthinsi.put("Θεωρητική", new double[]{0.25, 0.30, 0.30, 0.15});
-        syntelestesAnaKateuthinsi.put("Θετική", new double[]{0.25, 0.25, 0.25, 0.25});
-        syntelestesAnaKateuthinsi.put("Οικονομικά", new double[]{0.25, 0.30, 0.25, 0.20});
-        syntelestesAnaKateuthinsi.put("Υγείας", new double[]{0.25, 0.30, 0.25, 0.20});
-
-        comboDirection.addActionListener(e -> enhmerwshMathimaton());
-        enhmerwshMathimaton();
+        comboDirection.addActionListener(e -> enhmerwshKateuthimsis());
 
         calcButton.addActionListener(e -> upologismos());
     }
 
-    private void enhmerwshMathimaton() {
-        String kateuthinsi = (String) comboDirection.getSelectedItem();
-        String[] mathimata = mathimataAnaKateuthinsi.get(kateuthinsi);
-        for (int i = 0; i < 4; i++) {
-            labelMathimata[i].setText(mathimata[i] + ":");
-            textMathimata[i].setText("");
+    private void enhmerwshMathimatwn(){
+        System.out.println(selectedDirection.getSelectedItem().toString());
+        for (int i = 0; i < 4; i++){
+            String Kateu = selectedDirection.getSelectedItem().toString();
+            String[] mathimataAnaKateuthinsiArray = mathimataAnaKateuthinsi.get(Kateu);
+            labelMathimata[i].setText(mathimataAnaKateuthinsiArray[i]);
         }
     }
-    
-    
+
+    private void enhmerwshKateuthimsis() {
+        DefaultComboBoxModel Direction;
+        if(comboDirection.getSelectedItem().equals("Γενικό Λύκειο")){
+            Direction = new DefaultComboBoxModel<String>(new String[]{"Θεωρητική", "Θετική", "Οικονομικά", "Υγείας"}); {
+            };
+            selectedDirection.setModel(Direction);
+            selectedDirection.setSelectedIndex(0);
+        }
+        else{
+            Direction = new DefaultComboBoxModel<String>(new String[]{"Γεωπονία Τρροφίμων και Περιβάλλοντος","Διοίκησης και Οικονομίας","Εφαρμοσμένων Τεχνών","Μηχανολογίας","Ναυτιλιακών Επαγγελμάτων","Πληροφορικής","Υγείας και Πρόνοιας - Ευεξίας"});
+            selectedDirection.setModel(Direction);
+            selectedDirection.setSelectedIndex(0);
+        }
+    }
+
+
 
     private void upologismos() {
         try {
-            String kateuthinsi = (String) comboDirection.getSelectedItem();
+            String kateuthinsi = (String) selectedDirection.getSelectedItem();
             double[] syntelestes = syntelestesAnaKateuthinsi.get(kateuthinsi);
 
             double sunoloMorion = 0;
@@ -211,6 +253,13 @@ public class GUI extends JFrame {
             case "Θετική" -> "./Sxoles/thetiki_cleaned.csv";
             case "Οικονομικά" -> "./Sxoles/oikonomika_cleaned.csv";
             case "Υγείας" -> "./Sxoles/igeias_cleaned.csv";
+            case "Γεωπονία Τρροφίμων και Περιβάλλοντος" -> "./Sxoles/ΤΟΜΕΑΣ ΓΕΩΠΟΝΙΑΣ, ΤΡΟΦΙΜΩΝ ΚΑΙ ΠΕΡΙΒΑΛΛΟΝΤΟΣ.csv";
+            case "Διοίκησης και Οικονομίας" -> "./Sxoles/ΤΟΜΕΑΣ ΔΙΟΙΚΗΣΗΣ ΚΑΙ ΟΙΚΟΝΟΜΙΑΣ.csv";
+            case "Εφαρμοσμένων Τεχνών" -> "./Sxoles/ΤΟΜΕΑΣ ΕΦΑΡΜΟΣΜΕΝΩΝ ΤΕΧΝΩΝ.csv";
+            case "Μηχανολογίας" -> "./Sxoles/ΤΟΜΕΑΣ ΜΗΧΑΝΟΛΟΓΙΑΣ.csv";
+            case "Ναυτιλιακών Επαγγελμάτων" -> "./Sxoles/ΤΟΜΕΑΣ ΝΑΥΤΙΛΙΑΚΩΝ ΕΠΑΓΓΕΛΜΑΤΩΝ .csv";
+            case "Πληροφορικής" -> "./Sxoles/ΤΟΜΕΑΣ ΠΛΗΡΟΦΟΡΙΚΗΣ.csv";
+            case "Υγείας και Πρόνοιας - Ευεξίας" -> "./Sxoles/ΤΟΜΕΑΣ ΥΓΕΙΑΣ ΚΑΙ ΠΡΟΝΟΙΑΣ - ΕΥΕΞΙΑΣ.csv";
             default -> null;
         };
 
@@ -220,8 +269,6 @@ public class GUI extends JFrame {
     }
 
 
-   
 }
-
     
 
