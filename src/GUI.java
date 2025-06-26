@@ -33,8 +33,9 @@ public class GUI extends JFrame {
     public GUI() {
         setTitle("Υπολογιστής Μορίων");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(700, 750);
+        setSize(900, 850);
         setLocationRelativeTo(null);
+
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -137,18 +138,25 @@ public class GUI extends JFrame {
         specialPanel.add(checkBoxPanel);
         mainPanel.add(specialPanel);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         // Κουμπί και αποτέλεσμα
         JButton calcButton = new JButton("Υπολογισμός Μορίων");
-        mainPanel.add(calcButton);
+        buttonPanel.add(calcButton);
+        mainPanel.add(buttonPanel);
 
-        resultArea = new JTextArea(4, 40);
+        resultArea = new JTextArea();
         resultArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         resultArea.setEditable(false);
+        resultArea.setLineWrap(true);
+        resultArea.setWrapStyleWord(true);
         resultArea.setBorder(BorderFactory.createTitledBorder("Αποτέλεσμα"));
         mainPanel.add(resultArea);
 
         // Προσθήκη στο frame
-        setContentPane(new JScrollPane(mainPanel));
+        JScrollPane mainPane = new JScrollPane(mainPanel);
+        mainPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        setContentPane(mainPane);
 
         selectedDirection.addActionListener(e -> enhmerwshMathimatwn());
 
