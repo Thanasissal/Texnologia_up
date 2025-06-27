@@ -1,3 +1,5 @@
+package main.java;
+
 public class School {
     private String name;
     private String city;

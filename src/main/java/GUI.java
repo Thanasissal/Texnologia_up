@@ -1,3 +1,5 @@
+package main.java;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.*;
@@ -10,13 +12,13 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 public class GUI extends JFrame {
-    private JComboBox<String> comboDirection;
-    private JComboBox selectedDirection;
+    public JComboBox<String> comboDirection;
+    public JComboBox selectedDirection;
     private JTextField[] textMathimata = new JTextField[4];
     private JLabel[] labelMathimata = new JLabel[4];
-    private JComboBox<String> comboSpecialYesNo;
-    private JCheckBox[] specialCheckBoxes;
-    private JTextField[] specialGrades;
+    public JComboBox<String> comboSpecialYesNo;
+    public JCheckBox[] specialCheckBoxes;
+    public JTextField[] specialGrades;
     private JTextArea resultArea;
     private JPanel lessonsPanel = new JPanel();
 
@@ -49,6 +51,7 @@ public class GUI extends JFrame {
         JPanel SchoolTypePanel = new JPanel();
         SchoolTypePanel.setBorder(BorderFactory.createTitledBorder("Τύπος Σχολείου"));
         comboDirection = new JComboBox<>(new String[]{"Γενικό Λύκειο","Επαγγελματικό Λύκειο"});
+        comboDirection.setName("comboDirection");
         comboDirection.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 enhmerwshKateuthimsis();
@@ -254,7 +257,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private List<School> fortoseSxoles(String kateuthinsi) {
+    public List<School> fortoseSxoles(String kateuthinsi) {
         ArrayList<School> schools;
         String filename = switch (kateuthinsi) {
             case "Θεωρητική" -> "./Sxoles/theoritiki_cleaned.csv";
