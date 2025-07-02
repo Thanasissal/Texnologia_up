@@ -259,18 +259,19 @@ public class GUI extends JFrame {
 
     public List<School> fortoseSxoles(String kateuthinsi) {
         ArrayList<School> schools;
+        String fileLoc = "/main/resources/Sxoles/";
         String filename = switch (kateuthinsi) {
-            case "Θεωρητική" -> "src/main/resources/Sxoles/theoritiki_cleaned.csv";
-            case "Θετική" -> "src/main/resources/Sxoles/thetiki_cleaned.csv";
-            case "Οικονομικά" -> "src/main/resources/Sxoles/oikonomika_cleaned.csv";
-            case "Υγείας" -> "src/main/resources/Sxoles/igeias_cleaned.csv";
-            case "Γεωπονία Τρροφίμων και Περιβάλλοντος" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΓΕΩΠΟΝΙΑΣ, ΤΡΟΦΙΜΩΝ ΚΑΙ ΠΕΡΙΒΑΛΛΟΝΤΟΣ.csv";
-            case "Διοίκησης και Οικονομίας" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΔΙΟΙΚΗΣΗΣ ΚΑΙ ΟΙΚΟΝΟΜΙΑΣ.csv";
-            case "Εφαρμοσμένων Τεχνών" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΕΦΑΡΜΟΣΜΕΝΩΝ ΤΕΧΝΩΝ.csv";
-            case "Μηχανολογίας" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΜΗΧΑΝΟΛΟΓΙΑΣ.csv";
-            case "Ναυτιλιακών Επαγγελμάτων" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΝΑΥΤΙΛΙΑΚΩΝ ΕΠΑΓΓΕΛΜΑΤΩΝ .csv";
-            case "Πληροφορικής" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΠΛΗΡΟΦΟΡΙΚΗΣ.csv";
-            case "Υγείας και Πρόνοιας - Ευεξίας" -> "src/main/resources/Sxoles/ΤΟΜΕΑΣ ΥΓΕΙΑΣ ΚΑΙ ΠΡΟΝΟΙΑΣ - ΕΥΕΞΙΑΣ.csv";
+            case "Θεωρητική" -> fileLoc + "theoritiki_cleaned.csv";
+            case "Θετική" -> fileLoc + "thetiki_cleaned.csv";
+            case "Οικονομικά" -> fileLoc + "oikonomika_cleaned.csv";
+            case "Υγείας" -> fileLoc + "igeias_cleaned.csv";
+            case "Γεωπονία Τρροφίμων και Περιβάλλοντος" -> fileLoc + "ΤΟΜΕΑΣ ΓΕΩΠΟΝΙΑΣ, ΤΡΟΦΙΜΩΝ ΚΑΙ ΠΕΡΙΒΑΛΛΟΝΤΟΣ.csv";
+            case "Διοίκησης και Οικονομίας" -> fileLoc + "ΤΟΜΕΑΣ ΔΙΟΙΚΗΣΗΣ ΚΑΙ ΟΙΚΟΝΟΜΙΑΣ.csv";
+            case "Εφαρμοσμένων Τεχνών" -> fileLoc + "ΤΟΜΕΑΣ ΕΦΑΡΜΟΣΜΕΝΩΝ ΤΕΧΝΩΝ.csv";
+            case "Μηχανολογίας" -> fileLoc + "ΤΟΜΕΑΣ ΜΗΧΑΝΟΛΟΓΙΑΣ.csv";
+            case "Ναυτιλιακών Επαγγελμάτων" -> fileLoc + "ΤΟΜΕΑΣ ΝΑΥΤΙΛΙΑΚΩΝ ΕΠΑΓΓΕΛΜΑΤΩΝ .csv";
+            case "Πληροφορικής" -> fileLoc + "ΤΟΜΕΑΣ ΠΛΗΡΟΦΟΡΙΚΗΣ.csv";
+            case "Υγείας και Πρόνοιας - Ευεξίας" -> fileLoc + "ΤΟΜΕΑΣ ΥΓΕΙΑΣ ΚΑΙ ΠΡΟΝΟΙΑΣ - ΕΥΕΞΙΑΣ.csv";
             default -> null;
         };
 

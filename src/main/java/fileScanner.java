@@ -1,8 +1,6 @@
 package main.java;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class fileScanner {
@@ -11,7 +9,9 @@ public class fileScanner {
     public ArrayList<School> getSchools(String file) {
         ArrayList<School> schools = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))){
+        try (InputStream inputStream = getClass().getResourceAsStream(file)){
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(inputStreamReader);
             String line;
 
             while ((line = br.readLine()) != null){
